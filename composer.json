@@ -1,0 +1,23 @@
+{
+    "name": "blupl/printmedia",
+    "description": "Media Extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ahsanul Kabir",
+            "email": "ratulx00@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "autoload": {
+      "classmap": [
+        "resources/database/migrations"
+      ],
+      "psr-4": {
+        "Blupl\\PrintMedia\\" : "src/"
+      }
+    }
+}
