@@ -15,7 +15,8 @@ class CreateMediaInvolvePeopleTable extends Migration {
 		Schema::create('media_involve_people', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->tinyInteger('organization_id');
+            $table->string('form_id');
+            $table->string('category');
             $table->string('name')->nullable();
             $table->string('designation', 50)->nullable();
             $table->string('mobile_number', 20)->nullable();
@@ -33,7 +34,7 @@ class CreateMediaInvolvePeopleTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('media_involbe_people');
+		Schema::drop('media_involve_people');
 	}
 
 }

@@ -41,7 +41,7 @@ class MediaPresenter extends Presenter
      */
     public function table($model)
     {
-        return $this->table->of('student', function (TableGrid $table) use ($model) {
+        return $this->table->of('media', function (TableGrid $table) use ($model) {
             // attach Model and set pagination option to true.
             $table->with($model)->paginate(true);
 
@@ -53,7 +53,7 @@ class MediaPresenter extends Presenter
             // Add columns.
             $table->column(trans('orchestra/foundation::label.name'), 'name');
             $table->column('Phone', 'phone');
-            $table->column('Address', 'address');
+            $table->column('Address', 'address1');
 
             $table->attributes(['class' => 'table table-striped responsive-utilities jambo_table']);
 
@@ -79,7 +79,7 @@ class MediaPresenter extends Presenter
                 ->value(function ($row) {
                     $html = [
                         app('html')->link(
-                            handles("orchestra::media/profile/{$row->id}/edit"),
+                            handles("orchestra::media/reporter/{$row->id}/edit"),
                             trans('orchestra/foundation::label.edit'),
                             ['class' => 'btn btn-xs btn-warning']
                         ),
@@ -109,8 +109,8 @@ class MediaPresenter extends Presenter
      */
     public function form(Eloquent $model)
     {
-        return $this->form->of('geonix.media.media_organization', function (FormGrid $form) use ($model) {
-            $form->resource($this, 'orchestra::student/profile', $model);
+        return $this->form->of('blupl.media.reporter', function (FormGrid $form) use ($model) {
+            $form->resource($this, 'orchestra::media/reporter', $model);
             $form->hidden('id');
         });
     }

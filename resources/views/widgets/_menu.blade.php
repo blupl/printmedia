@@ -31,13 +31,13 @@
 
 <li role="presentation" class="dropdown">
     <a id="" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-        Profile
+        Organization
         <span class="caret"></span>
     </a>
     <ul id="menu6" class="dropdown-menu animated fadeInDown" role="menu">
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ handles('orchestra::student/profile') }}">List</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ handles('orchestra::media/reporter') }}">List</a>
         </li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ handles('orchestra::student/profile/create') }}">Create</a>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ handles('orchestra::media/reporter/create') }}">Create</a>
         </li>
         {{--<li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Something else here</a>--}}
         {{--</li>--}}

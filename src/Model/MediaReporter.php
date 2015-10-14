@@ -1,4 +1,4 @@
-<?php namespace Blupl\PrintMedia;
+<?php namespace Blupl\PrintMedia\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +24,8 @@ class MediaReporter extends Model {
      * @var array
      */
     protected $fillable = [
+        'form_id',
+        'category',
         'name',
         'personal_id',
         'gender',
@@ -35,5 +37,10 @@ class MediaReporter extends Model {
         'photo',
         'card_collection_point'
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization', 'id', 'organization_id');
+    }
 
 }

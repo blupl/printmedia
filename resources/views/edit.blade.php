@@ -27,10 +27,58 @@
             </div>
             <div class="x_content">
 
-                {!! $form !!}
+                @include('blupl/printmedia::_form')
 
             </div>
         </div>
     </div>
 </div>
 @stop
+
+
+@push('orchestra.footer')
+    <script type="text/javascript" src="{{ asset('packages/blucms/foundation/js/wizard/jquery.smartWizard.js') }}"></script>
+    @include('blupl/printmedia::common._inputScript')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Smart Wizard
+            $('#wizard').smartWizard();
+
+            function onFinishCallback() {
+                $('#wizard').smartWizard('showMessage', 'Finish Clicked');
+                //alert('Finish Clicked');
+            }
+        });
+
+        $(document).ready(function () {
+            // Smart Wizard
+            $('#wizard_verticle').smartWizard({
+                transitionEffect: 'slide'
+            });
+
+        });
+
+        $(document).ready(function () {
+            $('.form-active').on('click', function() {
+                var filed = $(this).parents('fieldset');
+                filed.prop("disabled", false);
+                $(this).hide();
+            });
+        });
+    </script>
+
+    <!-- /datepicker -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.date_of_birth').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_3"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+//                $('.date_of_birth').html(start.format('MMMM D, YYYY'));
+            });
+
+        });
+    </script>
+@endpush

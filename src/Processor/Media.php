@@ -3,7 +3,7 @@
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Blupl\PrintMedia\Model\MediaPrint as Eloquent;
+use Blupl\PrintMedia\Model\MediaOrganization as Eloquent;
 use Orchestra\Contracts\Foundation\Foundation;
 use Blupl\PrintMedia\Http\Presenters\MediaPresenter as MediaPresenter;
 use Blupl\PrintMedia\Validation\Media as MediaValidator;
@@ -19,7 +19,9 @@ class Media extends Processor
         $this->presenter  = $presenter;
         $this->validator  = $validator;
         $this->foundation = $foundation;
-        $this->model      = $foundation->make('Blupl\PrintMedia\Model\MediaOrganization');
+        $this->model = $foundation->make('Blupl\PrintMedia\Model\MediaOrganization');
+
+
     }
 
     /**
@@ -53,12 +55,13 @@ class Media extends Processor
      */
     public function create($listener)
     {
-        $eloquent = $this->model;
-        $form     = $this->presenter->form($eloquent);
+//        $eloquent = $this->model;
+//        $form     = $this->presenter->form($eloquent);
 
-        $this->fireEvent('form', [$eloquent, $form]);
+//        $this->fireEvent('form', [$eloquent, $form]);
 
-        return $listener->createSucceed(compact('eloquent', 'form'));
+//        return $listener->createSucceed(compact('eloquent', 'form'));
+          return $listener->createSucceed();
     }
 
     /**
@@ -87,22 +90,17 @@ class Media extends Processor
      *
      * @return mixed
      */
-    public function store($listener, array $input)
+    public function store($listener, $request)
     {
-        $validation = $this->validator->on('create')->with($input);
-
-        if ($validation->fails()) {
-            return $listener->storeValidationFailed($validation);
-        }
-        $student = $this->model;
+        $media = $this->model;
 
         try {
-            $this->saving($student, $input, 'create');
+            $this->saving($media, $request, 'create');
         } catch (Exception $e) {
             return $listener->storeFailed(['error' => $e->getMessage()]);
         }
 
-        return $listener->storeSucceed($student);
+        return $listener->storeSucceed('yoo');
     }
 
     /**
@@ -169,27 +167,30 @@ class Media extends Processor
      *
      * @return bool
      */
-    protected function saving(Eloquent $student, $input = [], $type = 'create')
+    protected function saving(Eloquent $media, $request, $type = 'create')
     {
+//        dd($request->all());
+
         $beforeEvent = ($type === 'create' ? 'creating' : 'updating');
         $afterEvent  = ($type === 'create' ? 'created' : 'updated');
 
-        $student->setAttribute('name', $input['name']);
-        $student->setAttribute('phone', $input['phone']);
-        $student->setAttribute('address', $input['address']);
+//        $media->setAttribute('name', $input['name']);
+//        $media->setAttribute('phone', $input['phone']);
+//        $media->setAttribute('address', $input['address']);
 
-        $this->fireEvent($beforeEvent, [$student]);
-        $this->fireEvent('saving', [$student]);
+        $this->fireEvent($beforeEvent, [$media]);
+        $this->fireEvent('saving', [$media]);
 
-//        dd($student);
+//        DB::transaction(function () use ($media) {
+//            $media->save();
+//        });
 
-        DB::transaction(function () use ($student) {
-            $student->save();
-        });
+        $organization = $media->create($request->organization);
+        $organization->member()->insert($request->officer);
+        $organization->reporter()->insert($request->reporter);
 
-
-        $this->fireEvent($afterEvent, [$student]);
-        $this->fireEvent('saved', [$student]);
+        $this->fireEvent($afterEvent, [$media]);
+        $this->fireEvent('saved', [$media]);
 
         return true;
     }

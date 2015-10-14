@@ -15,6 +15,7 @@ class CreateMediaOrganizationsTable extends Migration {
 		Schema::create('media_organizations', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->string('form_id');
             $table->string('name');
             $table->string('editor_name');
             $table->string('address1');
@@ -23,8 +24,8 @@ class CreateMediaOrganizationsTable extends Migration {
             $table->string('country', 50);
             $table->string('phone', 20);
             $table->string('email', 50);
-            $table->string('fax', 20);
-            $table->string('website');
+            $table->string('fax', 20)->nullable();
+            $table->string('website')->nullable();
 			$table->timestamps();
 		});
 	}

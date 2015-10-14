@@ -1,6 +1,9 @@
 <?php namespace Blupl\PrintMedia\Http\Controllers\Admin;
 
+use Blupl\PrintMedia\Http\Requests\Reporter;
+use Blupl\PrintMedia\Model\MediaOrganization;
 use Blupl\PrintMedia\Model\MediaPrint;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
 use Orchestra\Foundation\Http\Controllers\AdminController;
@@ -45,9 +48,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function show($students)
+    public function show($medias)
     {
-        return $this->edit($students);
+        return $this->edit($medias);
     }
 
     /**
@@ -67,9 +70,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function edit($students)
+     public function edit($medias)
      {
-        return $this->processor->edit($this, $students);
+        return $this->processor->edit($this, $medias);
      }
 
     /**
@@ -77,9 +80,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function store()
+     public function store(Reporter $request)
      {
-        return $this->processor->store($this, Input::all());
+        return $this->processor->store($this, $request);
      }
 
     /**
@@ -89,9 +92,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function update($students)
+    public function update($medias)
     {
-        return $this->processor->update($this, Input::all(), $students);
+        return $this->processor->update($this, Input::all(), $medias);
     }
 
     /**
@@ -101,9 +104,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function delete($students)
+    public function delete($medias)
     {
-        return $this->destroy($students);
+        return $this->destroy($medias);
     }
 
     /**
@@ -113,9 +116,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function destroy($students)
+    public function destroy($medias)
     {
-        return $this->processor->destroy($this, $students);
+        return $this->processor->destroy($this, $medias);
     }
 
 
@@ -126,11 +129,11 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function createSucceed(array $data)
+    public function createSucceed()
     {
-        set_meta('title', trans('blupl/printmedia::title.student.create'));
+        set_meta('title', trans('blupl/printmedia::title.media.create'));
 
-        return view('blupl/printmedia::edit', $data);
+        return view('blupl/printmedia::edit');
     }
 
     /**
@@ -142,7 +145,7 @@ class ReporterController extends AdminController
      */
     public function editSucceed(array $data)
     {
-        set_meta('title', trans('blupl/printmedia::title.student.update'));
+        set_meta('title', trans('blupl/printmedia::title.media.update'));
 
         return view('blupl/printmedia::edit', $data);
     }
@@ -156,7 +159,7 @@ class ReporterController extends AdminController
      */
      public function storeValidationFailed($validation)
      {
-        return $this->redirectWithErrors(handles('orchestra::student/profile/create'), $validation);
+        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
      }
 
     /**
@@ -170,7 +173,7 @@ class ReporterController extends AdminController
      {
         $message = trans('orchestra/foundation::response.db-failed', $error);
 
-        return $this->redirectWithMessage(handles('orchestra::student/profile'), $message);
+        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**
@@ -180,13 +183,13 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function storeSucceed(Student $student)
+     public function storeSucceed()
      {
-        $message = trans('blupl/printmedia::response.student.create', [
-            'name' => $student->getAttribute('name')
+        $message = trans('blupl/printmedia::response.media.create', [
+//            'name' => $media->getAttribute('name')
         ]);
 
-            return $this->redirectWithMessage(handles('orchestra::student/profile'), $message);
+         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**
@@ -199,7 +202,7 @@ class ReporterController extends AdminController
      */
      public function updateValidationFailed($validation, $id)
      {
-        return $this->redirectWithErrors(handles("orchestra::student/profile/{$id}/edit"), $validation);
+        return $this->redirectWithErrors(handles("orchestra::media/reporter/{$id}/edit"), $validation);
      }
 
     /**
@@ -213,19 +216,19 @@ class ReporterController extends AdminController
      {
         $message = trans('orchestra/foundation::response.db-failed', $errors);
 
-        return $this->redirectWithMessage(handles('orchestra::student/profile'), $message);
+        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**
      * Response when updating role succeed.
      */
-    public function updateSucceed(Student $student)
+    public function updateSucceed(media $media)
     {
         $message = trans('orchestra/control::response.roles.update', [
-            'name' => $student->getAttribute('name')
+            'name' => $media->getAttribute('name')
         ]);
 
-        return $this->redirectWithMessage(handles('orchestra::student'), $message);
+        return $this->redirectWithMessage(handles('orchestra::media'), $message);
     }
 
     /**
@@ -239,7 +242,7 @@ class ReporterController extends AdminController
     {
         $message = trans('orchestra/foundation::response.db-failed', $error);
 
-        return $this->redirectWithMessage(handles('orchestra::student'), $message);
+        return $this->redirectWithMessage(handles('orchestra::media'), $message);
     }
 
     /**
@@ -249,13 +252,13 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function destroySucceed(Student $student)
+    public function destroySucceed(media $media)
     {
         $message = trans('orchestra/control::response.roles.delete', [
-            'name' => $student->getAttribute('name')
+            'name' => $media->getAttribute('name')
         ]);
 
-        return $this->redirectWithMessage(handles('orchestra::student'), $message);
+        return $this->redirectWithMessage(handles('orchestra::media'), $message);
     }
 
     /**
