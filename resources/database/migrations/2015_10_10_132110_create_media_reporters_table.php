@@ -20,7 +20,7 @@ class CreateMediaReportersTable extends Migration {
             $table->string('name');
             $table->integer('personal_id');
             $table->string('gender', 20);
-            $table->date('date_of_birth');
+            $table->string('date_of_birth', 20);
             $table->string('mobile', 20);
             $table->string('email', 50);
             $table->string('role', 25);

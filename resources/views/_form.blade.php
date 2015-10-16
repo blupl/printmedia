@@ -1,5 +1,6 @@
 <!-- Smart Wizard -->
 <?php $uniqeId = uniqid(); ?>
+#{{     $form = \Illuminate\Support\Facades\Input::get('form'); }}
 
 <div class="col-md-12">
         <h1 class="text-center">MEDIA ACCREDITATION</h1>
@@ -40,9 +41,11 @@
     <div id="step-1">
         @include('blupl/printmedia::print-media.printmedia1')
     </div>
+    @if($form != 'freelancer')
     <div id="step-2">
         @include('blupl/printmedia::print-media.printmedia2')
     </div>
+    @endif
     <div id="step-3">
         @include('blupl/printmedia::print-media.printmedia3')
     </div>

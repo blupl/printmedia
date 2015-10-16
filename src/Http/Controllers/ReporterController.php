@@ -1,11 +1,15 @@
-<?php namespace Blupl\PrintMedia\Http\Controllers\Admin;
+<?php namespace Blupl\PrintMedia\Http\Controllers;
 
+use Blupl\PrintMedia\Http\Controllers\HomeController;
+use Blupl\PrintMedia\Http\Requests\Reporter;
+use Blupl\PrintMedia\Model\MediaOrganization;
 use Blupl\PrintMedia\Model\MediaPrint;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
 use Orchestra\Foundation\Http\Controllers\AdminController;
 
-class HomeController extends AdminController
+class ReporterController extends AdminController
 {
 
     public function __construct(MediaProcessor $processor)
@@ -25,9 +29,9 @@ class HomeController extends AdminController
      *
      * @return mixed
      */
-    public function index()
+    public function index(HomeController $home)
     {
-        return $this->processor->index($this);
+        return $home->index();
     }
 
     public function indexSucceed(array $data)
@@ -45,12 +49,10 @@ class HomeController extends AdminController
      *
      * @return mixed
      */
-    public function show($media)
+    public function show($medias)
     {
-        return $this->edit($media);
+        return $this->edit($medias);
     }
-
-
 
     /**
      * Create a new role.
@@ -79,9 +81,9 @@ class HomeController extends AdminController
      *
      * @return mixed
      */
-     public function store()
+     public function store(Reporter $request)
      {
-        return $this->processor->store($this, Input::all());
+        return $this->processor->store($this, $request);
      }
 
     /**
@@ -128,11 +130,11 @@ class HomeController extends AdminController
      *
      * @return mixed
      */
-    public function createSucceed(array $data)
+    public function createSucceed()
     {
         set_meta('title', trans('blupl/printmedia::title.media.create'));
 
-        return view('blupl/printmedia::edit', $data);
+        return view('blupl/printmedia::edit');
     }
 
     /**
@@ -158,7 +160,7 @@ class HomeController extends AdminController
      */
      public function storeValidationFailed($validation)
      {
-        return $this->redirectWithErrors(handles('orchestra::media/reporter/create'), $validation);
+        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
      }
 
     /**
@@ -182,13 +184,13 @@ class HomeController extends AdminController
      *
      * @return mixed
      */
-     public function storeSucceed(media $media)
+     public function storeSucceed()
      {
         $message = trans('blupl/printmedia::response.media.create', [
-            'name' => $media->getAttribute('name')
+//            'name' => $media->getAttribute('name')
         ]);
 
-            return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**

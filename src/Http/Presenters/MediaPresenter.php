@@ -51,7 +51,7 @@ class MediaPresenter extends Presenter
             $table->layout('orchestra/foundation::components.table');
 
             // Add columns.
-            $table->column(trans('orchestra/foundation::label.name'), 'name');
+            $table->column(trans('blupl/printmedia::label.name'), 'name');
             $table->column('Phone', 'phone');
             $table->column('Address', 'address1');
 

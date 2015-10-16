@@ -35,7 +35,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <div class="col-md-12 xdisplay_inputx form-group has-feedback">
-                                {!! Form::input('date', 'reporter['.$x.'][date_of_birth]', null, ['class'=>'form-control has-feedback-left date_of_birth', 'aria-describedby'=>'dateOfBirth', 'id'=>'', 'placeholder'=>'Date of Birth']) !!}
+                                {!! Form::text('reporter['.$x.'][date_of_birth]', null, ['class'=>'form-control has-feedback-left date_of_birth', 'aria-describedby'=>'dateOfBirth', 'id'=>'', 'placeholder'=>'Date of Birth']) !!}
                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                 <span id="dateOfBirth" class="sr-only">(success)</span>
                             </div>

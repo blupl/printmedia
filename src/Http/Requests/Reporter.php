@@ -22,7 +22,7 @@ class Reporter extends Request {
 	public function rules()
 	{
 		return [
-			//
+
 		];
 	}
 
