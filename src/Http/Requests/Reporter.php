@@ -22,7 +22,11 @@ class Reporter extends Request {
 	public function rules()
 	{
 		return [
-
+            "name" => "required",
+            "personal_id" => "required",
+            "date_of_birth" => "required",
+            "mobile" => "required",
+            "email" => "required",
 		];
 	}
 

@@ -77,13 +77,13 @@ class MediaPresenter extends Presenter
                     return ['class' => 'th-action'];
                 })
                 ->value(function ($row) {
-                    $html = [
-                        app('html')->link(
-                            handles("orchestra::media/reporter/{$row->id}/edit"),
-                            trans('orchestra/foundation::label.edit'),
-                            ['class' => 'btn btn-xs btn-warning']
-                        ),
-                    ];
+//                    $html = [
+//                        app('html')->link(
+//                            handles("orchestra::media/reporter/{$row->id}/edit"),
+//                            trans('orchestra/foundation::label.edit'),
+//                            ['class' => 'btn btn-xs btn-warning']
+//                        ),
+//                    ];
 
                     $roles = [
                         (int) $this->config->get('orchestra/foundation::media.admin'),

@@ -1,4 +1,4 @@
-@extends('getThemePath::layouts.page')
+@extends('orchestra/foundation::layouts.page')
 
 @section('content')
 

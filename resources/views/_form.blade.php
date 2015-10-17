@@ -6,7 +6,7 @@
         <h1 class="text-center">MEDIA ACCREDITATION</h1>
         <h2 class="text-center" >Print Media</h2>
 </div>
-{!! Form::open(['route'=>'admin.media.reporter.store']) !!}
+{!! Form::open(['route'=>'media.reporter.store']) !!}
 <div id="wizard" class="form_wizard wizard_horizontal">
 
     <ul class="wizard_steps" style="padding: 25px 0;">

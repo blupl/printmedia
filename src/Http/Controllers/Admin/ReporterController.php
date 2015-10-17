@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
 use Orchestra\Foundation\Http\Controllers\AdminController;
 
-class ReporterController extends AdminController
+class ReporterControllers extends AdminController
 {
 
     public function __construct(MediaProcessor $processor)

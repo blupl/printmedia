@@ -23,8 +23,7 @@ Foundation::group('blupl/printmedia', 'media', ['namespace' => 'Blupl\PrintMedia
 Foundation::namespaced('Blupl\PrintMedia\Http\Controllers\Admin', function (Router $router) {
     $router->group(['prefix' => 'media'], function (Router $router) {
         $router->resource('reporter', 'ReporterController');
-//        $router->get('/', 'HomeController@index');
-        $router->get('/', 'HomeController@select');
+        $router->get('/', 'HomeController@index');
         $router->match(['GET', 'HEAD', 'DELETE'], 'profile/{roles}/delete', 'HomeController@delete');
 
     });

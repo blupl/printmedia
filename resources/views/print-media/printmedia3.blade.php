@@ -26,7 +26,7 @@
 					</div>
 					
 					<div class="form-group col-md-5">
-                        {!! Form::select('organization[country]', ['bangladesh'=>'Bangladesh', 'bhutan'=>'Bhutan', 'maldives'=>'Maldives'], null,['class'=>'form-control', 'id'=>'card_collection_point']) !!}
+                        {!! Form::select('organization[country]', ['bangladesh'=>'Bangladesh', 'bhutan'=>'Bhutan', 'maldives'=>'Maldives'], null,['class'=>'form-control select2', 'id'=>'card_collection_point', 'style'=>'width: 100%;']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">

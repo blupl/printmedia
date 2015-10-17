@@ -83,6 +83,7 @@ class ReporterController extends AdminController
      */
      public function store(Reporter $request)
      {
+
         return $this->processor->store($this, $request);
      }
 
@@ -160,7 +161,8 @@ class ReporterController extends AdminController
      */
      public function storeValidationFailed($validation)
      {
-        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
+         dd('Validation Error');
+//        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
      }
 
     /**
@@ -173,8 +175,9 @@ class ReporterController extends AdminController
      public function storeFailed(array $error)
      {
         $message = trans('orchestra/foundation::response.db-failed', $error);
+         dd('Validation Faild');
 
-        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+//        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**
@@ -184,13 +187,13 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function storeSucceed()
+     public function storeSucceed(MediaOrganization $media)
      {
         $message = trans('blupl/printmedia::response.media.create', [
 //            'name' => $media->getAttribute('name')
         ]);
-
-         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+        dd('sss');
+//         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
      }
 
     /**

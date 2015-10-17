@@ -1,5 +1,7 @@
 <?php namespace Blupl\PrintMedia\Processor;
 
+use Blupl\PrintMedia\Model\MediaInvolvePerson;
+use Blupl\PrintMedia\Model\MediaReporter;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -55,12 +57,6 @@ class Media extends Processor
      */
     public function create($listener)
     {
-//        $eloquent = $this->model;
-//        $form     = $this->presenter->form($eloquent);
-
-//        $this->fireEvent('form', [$eloquent, $form]);
-
-//        return $listener->createSucceed(compact('eloquent', 'form'));
           return $listener->createSucceed();
     }
 
@@ -93,14 +89,15 @@ class Media extends Processor
     public function store($listener, $request)
     {
         $media = $this->model;
-
+//        MediaReporter::insert();
+        dd($request->reporter);
         try {
             $this->saving($media, $request, 'create');
         } catch (Exception $e) {
             return $listener->storeFailed(['error' => $e->getMessage()]);
         }
 
-        return $listener->storeSucceed('yoo');
+        return $listener->storeSucceed($media);
     }
 
     /**
@@ -169,14 +166,14 @@ class Media extends Processor
      */
     protected function saving(Eloquent $media, $request, $type = 'create')
     {
-//        dd($request->all());
 
         $beforeEvent = ($type === 'create' ? 'creating' : 'updating');
         $afterEvent  = ($type === 'create' ? 'created' : 'updated');
 
-//        $media->setAttribute('name', $input['name']);
-//        $media->setAttribute('phone', $input['phone']);
-//        $media->setAttribute('address', $input['address']);
+//        $media->setRawAttributes($request->organization);
+//        $media->member()->setRawAttributes($request->officer);
+//        $media->reporter()->setRawAttributes($request->reporter);
+
 
         $this->fireEvent($beforeEvent, [$media]);
         $this->fireEvent('saving', [$media]);
@@ -185,9 +182,14 @@ class Media extends Processor
 //            $media->save();
 //        });
 
+//        $media->save();
+
         $organization = $media->create($request->organization);
+
         $organization->member()->insert($request->officer);
+
         $organization->reporter()->insert($request->reporter);
+
 
         $this->fireEvent($afterEvent, [$media]);
         $this->fireEvent('saved', [$media]);
