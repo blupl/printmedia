@@ -25,7 +25,6 @@
         $('#select-category').on('change', function() {
             var slug = $('#select-category').val();
             var action = $('#select-form').attr('action');
-            alert(action);
             window.location = action+'/?role='+slug;
         });
     });

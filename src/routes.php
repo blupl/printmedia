@@ -11,6 +11,7 @@ use Orchestra\Support\Facades\Foundation;
 
 Foundation::group('blupl/printmedia', 'media', ['namespace' => 'Blupl\PrintMedia\Http\Controllers'], function (Router $router) {
     $router->resource('reporter', 'ReporterController');
+    $router->resource('approval', 'ApprovalController');
     $router->get('/', 'HomeController@index');
 });
 

@@ -1,7 +1,7 @@
 @extends('orchestra/foundation::layouts.page')
 
 @section('navbar')
-    @include('blupl/printmedia::widgets.header')
+{{--    @include('blupl/printmedia::widgets.header')--}}
 @endsection
 
 @section('content')

@@ -1,27 +1,24 @@
 <?php namespace Blupl\PrintMedia\Processor;
 
-use Blupl\PrintMedia\Model\MediaInvolvePerson;
 use Blupl\PrintMedia\Model\MediaReporter;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Blupl\PrintMedia\Model\MediaOrganization as Eloquent;
+use Blupl\PrintMedia\Model\MediaReporter as Eloquent;
 use Orchestra\Contracts\Foundation\Foundation;
 use Blupl\PrintMedia\Http\Presenters\MediaPresenter as MediaPresenter;
-use Blupl\PrintMedia\Validation\Media as MediaValidator;
 
-class Media extends Processor
+class Approval extends Processor
 {
     /**
      * Setup a new processor instance.
      *
      */
-    public function __construct(MediaPresenter $presenter, MediaValidator $validator, Foundation $foundation)
+    public function __construct(MediaPresenter $presenter,  Foundation $foundation)
     {
         $this->presenter  = $presenter;
-        $this->validator  = $validator;
         $this->foundation = $foundation;
-        $this->model = $foundation->make('Blupl\PrintMedia\Model\MediaOrganization');
+        $this->model = $foundation->make('Blupl\PrintMedia\Model\MediaReporter');
 
 
     }
@@ -35,17 +32,18 @@ class Media extends Processor
      */
     public function index($listener)
     {
-        $eloquent = $this->model->newQuery();
-        $table    = $this->presenter->table($eloquent);
+//        $eloquent = $this->model->newQuery();
+//        $table    = $this->presenter->table($eloquent);
+//
+//        $this->fireEvent('list', [$eloquent, $table]);
+//
+//        // Once all event listening to `orchestra.list: role` is executed,
+//        // we can add we can now add the final column, edit and delete
+//        // action for roles.
+//        $this->presenter->actions($table);
 
-        $this->fireEvent('list', [$eloquent, $table]);
 
-        // Once all event listening to `orchestra.list: role` is executed,
-        // we can add we can now add the final column, edit and delete
-        // action for roles.
-        $this->presenter->actions($table);
-
-        return $listener->indexSucceed(compact('eloquent', 'table'));
+        return $listener->indexSucceed(compact('reporter'));
     }
 
     /**
@@ -89,6 +87,8 @@ class Media extends Processor
     public function store($listener, $request)
     {
         $media = $this->model;
+//        MediaReporter::insert();
+        dd($request->reporter);
         try {
             $this->saving($media, $request, 'create');
         } catch (Exception $e) {

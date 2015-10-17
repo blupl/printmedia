@@ -7,6 +7,7 @@ use Blupl\PrintMedia\Model\MediaPrint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
+use Laracasts\Flash\Flash;
 use Orchestra\Foundation\Http\Controllers\AdminController;
 
 class ReporterController extends AdminController
@@ -29,9 +30,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function index(HomeController $home)
+    public function index()
     {
-        return $home->index();
+        return view('blupl/printmedia::thank');
     }
 
     public function indexSucceed(array $data)
@@ -134,7 +135,6 @@ class ReporterController extends AdminController
     public function createSucceed()
     {
         set_meta('title', trans('blupl/printmedia::title.media.create'));
-
         return view('blupl/printmedia::edit');
     }
 
@@ -190,10 +190,10 @@ class ReporterController extends AdminController
      public function storeSucceed(MediaOrganization $media)
      {
         $message = trans('blupl/printmedia::response.media.create', [
-//            'name' => $media->getAttribute('name')
+            'name' => $media->getAttribute('name')
         ]);
-        dd('sss');
-//         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+
+         return $this->redirectWithMessage(handles('blupl::media/reporter'), $message);
      }
 
     /**

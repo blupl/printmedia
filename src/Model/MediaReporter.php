@@ -40,7 +40,12 @@ class MediaReporter extends Model {
 
     public function organization()
     {
-        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization', 'id', 'organization_id');
+        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization',  'organization_id');
     }
+
+//    public function printmedia()
+//    {
+//        return $this->where
+//    }
 
 }

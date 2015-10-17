@@ -10,7 +10,7 @@ class Media extends Validator
      * @var array
      */
     protected $rules = [
-//        'name' => ['required']
+        'name' => ['required']
 //        'phone' => ['required'],
 //        'address' => ['required'],
     ];

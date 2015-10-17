@@ -27,6 +27,7 @@ class CreateMediaReportersTable extends Migration {
             $table->string('work_station', 25);
             $table->string('photo')->default('/images/no-image.png');
             $table->string('card_collection_point', 25);
+            $table->tinyInteger('status')->default('0');
 			$table->timestamps();
 
 		});
