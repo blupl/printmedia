@@ -16,6 +16,7 @@ class CreateMediaInvolvePeopleTable extends Migration {
 		{
 			$table->increments('id');
             $table->string('form_id');
+            $table->string('media_category', 30);
             $table->string('category');
             $table->string('name')->nullable();
             $table->string('designation', 50)->nullable();

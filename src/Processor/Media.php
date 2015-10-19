@@ -22,16 +22,10 @@ class Media extends Processor
         $this->validator  = $validator;
         $this->foundation = $foundation;
         $this->model = $foundation->make('Blupl\PrintMedia\Model\MediaOrganization');
-
-
     }
 
     /**
-     * View list roles page.
-     *
-     * @param  object  $listener
-     *
-     * @return mixed
+     * View list roles pages
      */
     public function index($listener)
     {
@@ -50,14 +44,16 @@ class Media extends Processor
 
     /**
      * View create a role page.
-     *
-     * @param  object  $listener
-     *
-     * @return mixed
      */
     public function create($listener)
     {
-          return $listener->createSucceed();
+       return $listener->createSucceed();
+    }
+
+    public function show($listener, $reporterId)
+    {
+        $reporter = MediaReporter::find($reporterId);
+        return $listener->showSucceed($reporter);
     }
 
     /**
@@ -89,8 +85,11 @@ class Media extends Processor
     public function store($listener, $request)
     {
         $media = $this->model;
+
         try {
-            $this->saving($media, $request, 'create');
+            $organization = $media->create($request->organization);
+            $organization->member()->insert($request->officer);
+            $organization->reporter()->insert($request->reporter);
         } catch (Exception $e) {
             return $listener->storeFailed(['error' => $e->getMessage()]);
         }
@@ -100,12 +99,6 @@ class Media extends Processor
 
     /**
      * Update a role.
-     *
-     * @param  object  $listener
-     * @param  array   $input
-     * @param  int     $id
-     *
-     * @return mixed
      */
     public function update($listener, array $input, $id)
     {
@@ -168,24 +161,12 @@ class Media extends Processor
         $beforeEvent = ($type === 'create' ? 'creating' : 'updating');
         $afterEvent  = ($type === 'create' ? 'created' : 'updated');
 
-//        $media->setRawAttributes($request->organization);
-//        $media->member()->setRawAttributes($request->officer);
-//        $media->reporter()->setRawAttributes($request->reporter);
-
 
         $this->fireEvent($beforeEvent, [$media]);
         $this->fireEvent('saving', [$media]);
 
-//        DB::transaction(function () use ($media) {
-//            $media->save();
-//        });
-
-//        $media->save();
-
         $organization = $media->create($request->organization);
-
         $organization->member()->insert($request->officer);
-
         $organization->reporter()->insert($request->reporter);
 
 

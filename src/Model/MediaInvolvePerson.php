@@ -25,6 +25,7 @@ class MediaInvolvePerson extends Model {
      */
     protected $fillable = [
         'form_id',
+        'media_category',
         'category',
         'name',
         'designation',

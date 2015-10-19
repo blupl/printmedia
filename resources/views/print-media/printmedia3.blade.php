@@ -4,7 +4,10 @@
         <div class="col-md-12">
 				<h3 class="text-center" style="   padding: 10px;">ORGANIZATION DETAILS</h3>
 				<div class="col-md-12" style="border: 1px solid black; padding-top: 15px; margin-bottom: 20px;">
-					<div class="form-group col-md-12">
+                    {!! Form::hidden('organization[media_category]', Input::get('category')) !!}
+                    {!! Form::hidden('organization[user_id]', Auth::user()->id) !!}
+
+                    <div class="form-group col-md-12">
 						<label for="organization_name">ORGANIZATION'S NAME</label>
                         {!! Form::text('organization[name]', null, ['class'=>'form-control', 'id'=>'organization_name']) !!}
 					</div>
@@ -62,6 +65,7 @@
 				<div class="col-md-12" style="border: 1px solid black; padding-top: 20px;">
                     {!! Form::hidden('officer[filled][form_id]', $uniqeId) !!}
                     {!! Form::hidden('officer[filled][category]', 'filled') !!}
+                    {!! Form::hidden('officer[filled][media_category]', Input::get('category')) !!}
 
                     <div class="form-group col-md-6">
                         <label for="name">NAME</label>

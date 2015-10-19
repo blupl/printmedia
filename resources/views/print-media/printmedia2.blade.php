@@ -13,7 +13,7 @@
                     <h3 class="left">Photo Journalist # {{ $x-4 }} {!! ($x != 5 ? '<a class="form-active btn-link"><small>| Active</small></a>' : '')  !!}</h3>
                 </div>
                 {!! Form::hidden('reporter['.$x.'][form_id]', $uniqeId) !!}
-                {!! Form::hidden('reporter['.$x.'][category]', 'journalist') !!}
+                {!! Form::hidden('reporter['.$x.'][media_category]', Input::get('category')) !!}
 
                 <div class="form-group col-md-12">
                     <label for="name">NAME</label>
@@ -104,6 +104,7 @@
 					<h3>ASSIGNMENT GRANTER </h3>
                     {!! Form::hidden('officer[granter][form_id]', $uniqeId) !!}
                     {!! Form::hidden('officer[granter][category]', 'granter') !!}
+                    {!! Form::hidden('officer[granter][media_category]', Input::get('category')) !!}
 
 
                     <div class="form-group col-md-12">

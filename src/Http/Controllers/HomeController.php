@@ -11,14 +11,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        return $this->select();
+        return 'check Auth';
     }
 
-    public function show()
-    {
-        return view('blupl/printmedia::select');
-    }
 
     public function form($role)
     {
@@ -30,7 +25,7 @@ class HomeController extends Controller
      */
     public function select()
     {
-        return view('blupl/printmedia::select-media');
+
     }
 
 }

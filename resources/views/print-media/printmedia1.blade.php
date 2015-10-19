@@ -15,7 +15,7 @@
                                     <h3 class="left">REPORTER # {{ $x }} {!! ($x != 1 ? '<a class="form-active btn-link"><small>| Active</small></a>' : '')  !!}</h3>
                                 </div>
                                 {!! Form::hidden('reporter['.$x.'][form_id]', $uniqeId) !!}
-                                {!! Form::hidden('reporter['.$x.'][category]', 'reporter') !!}
+                                {!! Form::hidden('reporter['.$x.'][media_category]', Input::get('category')) !!}
 
                                 <div class="form-group col-md-12">
                                     <label for="name">NAME</label>
@@ -57,7 +57,7 @@
 
                                 <div class="form-group col-md-5">
                                     <label for="role">Role</label>
-                                    {!! Form::select('reporter['.$x.'][role]', ['print-media'=>'Print Media', 'nr-holding-media'=>'Non-Rights Holding Media(TV & Radio', 'web-media'=>'Web Media', 'freelancer'=>'Freelance'], 'reporter', ['class'=>'form-control select2', 'id'=>'role', 'readonly'=>'readonly', 'style'=>'width: 100%;']) !!}
+                                    {!! Form::select('reporter['.$x.'][role]', ['reporter'=>'Reporter'], 'reporter', ['class'=>'form-control select2', 'id'=>'role', 'readonly'=>'readonly', 'style'=>'width: 100%;']) !!}
 
                                 </div>
 

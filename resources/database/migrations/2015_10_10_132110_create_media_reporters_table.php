@@ -16,7 +16,7 @@ class CreateMediaReportersTable extends Migration {
 		{
 			$table->increments('id');
             $table->string('form_id');
-            $table->string('category');
+            $table->string('media_category', 30);
             $table->string('name');
             $table->integer('personal_id');
             $table->string('gender', 20);

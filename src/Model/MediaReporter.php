@@ -1,5 +1,6 @@
 <?php namespace Blupl\PrintMedia\Model;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class MediaReporter extends Model {
@@ -25,7 +26,7 @@ class MediaReporter extends Model {
      */
     protected $fillable = [
         'form_id',
-        'category',
+        'media_category',
         'name',
         'personal_id',
         'gender',
@@ -40,12 +41,27 @@ class MediaReporter extends Model {
 
     public function organization()
     {
-        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization',  'organization_id');
+        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization', 'form_id', 'form_id');
     }
 
-//    public function printmedia()
-//    {
-//        return $this->where
-//    }
+    public function granter()
+    {
+        return $this->hasOne('Blupl\PrintMedia\Model\MediaInvolvePerson', 'form_id', 'form_id')->where('category', '=', 'granter');
+    }
+
+    public function zone()
+    {
+        return $this->hasMany('Blupl\PrintMedia\Model\Zone', 'member_id', 'id');
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
+    }
 
 }

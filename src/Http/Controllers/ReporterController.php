@@ -1,10 +1,9 @@
 <?php namespace Blupl\PrintMedia\Http\Controllers;
 
-use Blupl\PrintMedia\Http\Controllers\HomeController;
 use Blupl\PrintMedia\Http\Requests\Reporter;
 use Blupl\PrintMedia\Model\MediaOrganization;
-use Blupl\PrintMedia\Model\MediaPrint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
 use Laracasts\Flash\Flash;
@@ -32,16 +31,8 @@ class ReporterController extends AdminController
      */
     public function index()
     {
-        return view('blupl/printmedia::thank');
+        return view('blupl/printmedia::select-media');
     }
-
-    public function indexSucceed(array $data)
-    {
-        set_meta('title', 'blupl/printmedia::title.media');
-
-        return view('blupl/printmedia::index', $data);
-    }
-
 
     /**
      * Show a role.
@@ -50,9 +41,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function show($medias)
+    public function show($reporter)
     {
-        return $this->edit($medias);
+        return $this->processor->show($this, $reporter);
     }
 
     /**
@@ -60,9 +51,18 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->processor->create($this);
+        $user = Auth::user()->organization;
+        if($request->has('category') && $user == null) {
+            return $this->processor->create($this);
+        }elseif($user != null) {
+            Flash::error('Your Organization Already Register');
+            return $this->redirect(handles('blupl/printmedia::reporter'));
+        }else{
+            Flash::error('Must Select a Category');
+            return $this->redirect(handles('blupl/printmedia::reporter'));
+        }
     }
 
     /**
@@ -125,17 +125,33 @@ class ReporterController extends AdminController
     }
 
 
+    public function indexSucceed(array $data)
+    {
+        set_meta('title', 'blupl/printmedia::title.media');
+
+        return view('blupl/printmedia::index', $data);
+    }
+
     /**
-     * Response when create role page succeed.
-     *
+     * Response when create role page succeed
      * @param  array  $data
-     *
      * @return mixed
      */
     public function createSucceed()
     {
         set_meta('title', trans('blupl/printmedia::title.media.create'));
         return view('blupl/printmedia::edit');
+    }
+
+    public function showSucceed($reporter)
+    {
+        set_meta('title', trans('blupl/printmedia::title.media.reporter'));
+        if($reporter != null) {
+            return view('blupl/printmedia::reporter', compact('reporter'));
+        }else {
+            Flash::error('Reporter Not Found');
+            return $this->redirect(handles('blupl/printmedia::approval'));
+        }
     }
 
     /**
@@ -175,9 +191,8 @@ class ReporterController extends AdminController
      public function storeFailed(array $error)
      {
         $message = trans('orchestra/foundation::response.db-failed', $error);
-         dd('Validation Faild');
-
-//        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+        Flash::error('erro');
+        return $this->redirectWithMessage(handles('blupl/printmedia::reporter'), $message);
      }
 
     /**

@@ -3,20 +3,16 @@
 use Blupl\PrintMedia\Http\Requests\Reporter;
 use Blupl\PrintMedia\Model\MediaOrganization;
 use Blupl\PrintMedia\Model\MediaReporter;
-use Blupl\PrintMedia\Model\Zone;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Approval as ApprovalProcessor;
-use Laracasts\Flash\Flash;
 use Orchestra\Foundation\Http\Controllers\AdminController;
 
-class ApprovalController extends AdminController
+class PrintingController extends AdminController
 {
 
     public function __construct(ApprovalProcessor $processor)
     {
         $this->processor = $processor;
-
         parent::__construct();
     }
 
@@ -26,16 +22,14 @@ class ApprovalController extends AdminController
     }
 
     /**
-     * Get landing page.
-     *
+     * Get landing pages
      * @return mixed
      */
-    public function index(MediaReporter $reporters)
+    public function index()
     {
-        return view('blupl/printmedia::home-approval', compact('reporters'));
-
+        $reporters = MediaReporter::where('status', '=', 1)->get();
+        return view('blupl/printmedia::list-printing', compact('reporters'));
     }
-
 
     /**
      * Show a role.
@@ -44,33 +38,14 @@ class ApprovalController extends AdminController
      *
      * @return mixed
      */
-    public function show($mediaCategory)
-    {
-        $reporters = MediaReporter::where('media_category', '=', $mediaCategory)->get();
-        return view('blupl/printmedia::list', compact('reporters'));
-    }
-
-    public function showReporter($reporterId)
+    public function show($reporterId)
     {
         $reporter = MediaReporter::find($reporterId);
-
-        set_meta('title', trans('blupl/printmedia::title.media.reporter'));
-        if($reporter != null && $reporter->status == 0) {
-            return view('blupl/printmedia::reporter', compact('reporter'));
-        }else {
-            if($reporter->status == 1) {
-                $massage = "Already Approve";
-            } else {
-                $massage = "Reporter Not Found";
-            }
-            Flash::error($massage);
-            return $this->redirect(handles('blupl/printmedia::approval'));
-        }
+        return view('blupl/printmedia::print-single', compact('reporter'));
     }
 
     /**
      * Create a new role.
-     *
      * @return mixed
      */
     public function create()
@@ -108,33 +83,9 @@ class ApprovalController extends AdminController
      *
      * @return mixed
      */
-    public function update($reporterId, Request $request)
+    public function update($medias)
     {
-        $reporter = MediaReporter::find($reporterId);
-
-        if ($reporter->status == 0) {
-            foreach ($request->member_id as $member) {
-                foreach ($request->zone as $key => $zone) {
-                    $assignZone[$key]['member_id'] = $member;
-                    $assignZone[$key]['zone'] = $zone;
-                }
-                $reporter->zone()->insert($assignZone);
-                $reporter->status = 1;
-                $reporter->save();
-            }
-        }else {
-            if($reporter->status == 1) {
-                $massage = "Already Approve";
-            } else {
-                $massage = "Reporter Not Found";
-            }
-            Flash::error($massage);
-            return $this->redirect(handles('blupl/printmedia::approval'));
-        }
-
-        Flash::success($reporter->name.' Approved Successfully');
-        return $this->redirect(handles('blupl/printmedia::approval'));
-
+        return $this->processor->update($this, Input::all(), $medias);
     }
 
     /**

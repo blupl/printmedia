@@ -27,12 +27,8 @@
             <td>{{ $reporter->name }}</td>
             <td>{{ $reporter->organization->name }}</td>
             <td>{{ $reporter->role }}</td>
-            <td>{{ ($reporter->status == true ? 'Approved' : 'Pending') }}</td>
-            <td>
-                @if ($reporter->status == false )
-                    <a href="{{ handles('blupl/printmedia::approval/reporter/'.$reporter->id) }}">Approve</a>
-                @endif
-            </td>
+            <td>{{ ($reporter->status = true ? 'Approved' : 'Pending') }}</td>
+            <td><a href="{{ handles('blupl/printmedia::printing/'.$reporter->id) }}">Print</a> </td>
         </tr>
         @endforeach
 
