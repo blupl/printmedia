@@ -7,12 +7,13 @@ class Zone extends Model {
 	protected $table = 'zones';
 
     protected $fillable = [
-        'member_id',
+        'zoneable_id',
+        'zoneable_type',
         'zone'
     ];
 
-    public function member()
+    public function zoneable()
     {
-        return $this->belongsTo('Blupl\PrintMedia\Model\MediaReporter', 'member_id');
+        return $this->morphTo();
     }
 }

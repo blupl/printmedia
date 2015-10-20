@@ -71,15 +71,11 @@ class ApprovalController extends AdminController
         $reporter = MediaReporter::find($reporterId);
 
         if ($reporter->status == 0) {
-            foreach ($request->member_id as $member) {
                 foreach ($request->zone as $key => $zone) {
-                    $assignZone[$key]['member_id'] = $member;
-                    $assignZone[$key]['zone'] = $zone;
+                    $reporter->zone()->create(['zone'=>$zone]);
                 }
-                $reporter->zone()->insert($assignZone);
                 $reporter->status = 1;
                 $reporter->save();
-            }
         }else {
             if($reporter->status == 1) {
                 $massage = "Already Approve";

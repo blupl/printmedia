@@ -51,7 +51,7 @@ class MediaReporter extends Model {
 
     public function zone()
     {
-        return $this->hasMany('Blupl\PrintMedia\Model\Zone', 'member_id', 'id');
+        return $this->morphMany('Blupl\PrintMedia\Model\Zone', 'zoneable');
     }
 
     public function getCreatedAtAttribute($date)

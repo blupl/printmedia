@@ -15,7 +15,8 @@ class CreateZonesTable extends Migration {
 		Schema::create('zones', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->tinyInteger('member_id');
+            $table->string('zoneable_id', 20);
+            $table->string('zoneable_type');
             $table->tinyInteger('zone');
 			$table->timestamps();
 
