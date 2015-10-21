@@ -9,7 +9,7 @@
         <thead>
         <tr>
             <th></th>
-            <th>Number Of Enthies</th>
+            <th>Number Of Entries</th>
             <th>Pending</th>
             <th>Approval</th>
         </tr>

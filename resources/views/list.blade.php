@@ -31,6 +31,7 @@
             <td>
                 @if ($reporter->status == false )
                     <a href="{{ handles('blupl/printmedia::approval/reporter/'.$reporter->id) }}">Approve</a>
+
                 @endif
             </td>
         </tr>
