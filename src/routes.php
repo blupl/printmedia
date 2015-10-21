@@ -10,6 +10,7 @@ use Orchestra\Support\Facades\Foundation;
 */
 
 Foundation::group('blupl/printmedia', 'media', ['namespace' => 'Blupl\PrintMedia\Http\Controllers'], function (Router $router) {
+    $router->get('printing/pdf/{id}', 'PrintingController@pdf');
     $router->get('printing/{id}', 'PrintingController@show');
     $router->get('printing', 'PrintingController@index');
     $router->get('approval/reporter/{id}', 'ApprovalController@showReporter');
