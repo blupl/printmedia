@@ -24,6 +24,9 @@ class MediaOrganization extends Model {
      * @var array
      */
     protected $fillable = [
+        'form_id',
+        'user_id',
+        'media_category',
         'name',
         'editor_name',
         'address1',
@@ -35,5 +38,15 @@ class MediaOrganization extends Model {
         'fax',
         'website'
     ];
+
+    public function member()
+    {
+        return $this->hasMany('Blupl\PrintMedia\Model\MediaInvolvePerson', 'form_id', 'form_id');
+    }
+
+    public function reporter()
+    {
+        return $this->hasMany('Blupl\PrintMedia\Model\MediaReporter', 'form_id', 'form_id');
+    }
 
 }

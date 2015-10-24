@@ -1,12 +1,13 @@
-<?php namespace Blupl\PrintMedia\Http\Controllers\Admin;
+<?php namespace Blupl\PrintMedia\Http\Controllers;
 
 use Blupl\PrintMedia\Http\Requests\Reporter;
-use Blupl\PrintMedia\Model\MediaOrganization;
-use Blupl\PrintMedia\Model\MediaPrint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
+use Illuminate\Support\Facades\Mail;
+use Laracasts\Flash\Flash;
 use Orchestra\Foundation\Http\Controllers\AdminController;
+use Orchestra\Support\Facades\Mail as Mailer;
 
 class ReporterController extends AdminController
 {
@@ -14,8 +15,8 @@ class ReporterController extends AdminController
     public function __construct(MediaProcessor $processor)
     {
         $this->processor = $processor;
-
         parent::__construct();
+        $this->middleware('auth');
     }
 
     protected function setupFilters()
@@ -30,16 +31,8 @@ class ReporterController extends AdminController
      */
     public function index()
     {
-        return $this->processor->index($this);
+        return view('blupl/printmedia::select-media');
     }
-
-    public function indexSucceed(array $data)
-    {
-        set_meta('title', 'blupl/printmedia::title.media');
-
-        return view('blupl/printmedia::index', $data);
-    }
-
 
     /**
      * Show a role.
@@ -48,9 +41,9 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function show($medias)
+    public function show($reporter)
     {
-        return $this->edit($medias);
+        return $this->processor->show($this, $reporter);
     }
 
     /**
@@ -58,9 +51,14 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->processor->create($this);
+        if($request->has('category') ) {
+            return $this->processor->create($this);
+        }else{
+            Flash::error('Must Select a Category');
+            return $this->redirect(handles('blupl/printmedia::reporter'));
+        }
     }
 
     /**
@@ -82,7 +80,8 @@ class ReporterController extends AdminController
      */
      public function store(Reporter $request)
      {
-        return $this->processor->store($this, $request);
+//         dd('ypp');
+         return $this->processor->store($this, $request);
      }
 
     /**
@@ -122,18 +121,33 @@ class ReporterController extends AdminController
     }
 
 
+    public function indexSucceed(array $data)
+    {
+        set_meta('title', 'blupl/printmedia::title.media');
+
+        return view('blupl/printmedia::index', $data);
+    }
+
     /**
-     * Response when create role page succeed.
-     *
+     * Response when create role page succeed
      * @param  array  $data
-     *
      * @return mixed
      */
     public function createSucceed()
     {
         set_meta('title', trans('blupl/printmedia::title.media.create'));
-
         return view('blupl/printmedia::edit');
+    }
+
+    public function showSucceed($reporter)
+    {
+        set_meta('title', trans('blupl/printmedia::title.media.reporter'));
+        if($reporter != null) {
+            return view('blupl/printmedia::reporter', compact('reporter'));
+        }else {
+            Flash::error('Reporter Not Found');
+            return $this->redirect(handles('blupl/printmedia::approval'));
+        }
     }
 
     /**
@@ -159,7 +173,8 @@ class ReporterController extends AdminController
      */
      public function storeValidationFailed($validation)
      {
-        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
+         dd('Validation Error');
+//        return $this->redirectWithErrors(handles('orchestra::media/reporter'), $validation);
      }
 
     /**
@@ -172,8 +187,8 @@ class ReporterController extends AdminController
      public function storeFailed(array $error)
      {
         $message = trans('orchestra/foundation::response.db-failed', $error);
-
-        return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+        Flash::error('erro');
+        return $this->redirectWithMessage(handles('blupl/printmedia::reporter'), $message);
      }
 
     /**
@@ -183,13 +198,21 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function storeSucceed()
+     public function storeSucceed($organization)
      {
         $message = trans('blupl/printmedia::response.media.create', [
-//            'name' => $media->getAttribute('name')
+            'name' => $organization->name
         ]);
+//        dd($organization->email);
+         Mailer::send('blupl/printmedia::email.update', ['yoo'=>'Yoo'], function ($m) use ($organization) {
+             $m->to($organization->email);
+         });
 
-         return $this->redirectWithMessage(handles('orchestra::media/reporter'), $message);
+         Mail::send('blupl/printmedia::email.update', ['yoo'=>'Yoo'], function ($m) use ($organization) {
+             $m->to($organization->email, $organization->name)->subject('Your Reminder!');
+         });
+        dd('mail check');
+         return $this->redirectWithMessage(handles('blupl::media/reporter'), $message);
      }
 
     /**

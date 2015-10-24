@@ -10,9 +10,9 @@ class Media extends Validator
      * @var array
      */
     protected $rules = [
-        'name' => ['required'],
-        'phone' => ['required'],
-        'address' => ['required'],
+        'name' => ['required']
+//        'phone' => ['required'],
+//        'address' => ['required'],
     ];
 
     /**
@@ -21,7 +21,7 @@ class Media extends Validator
      * @var array
      */
     protected $events = [
-        'school.student.validate: student',
+        'blupl.printmedia.validate: printmedia',
     ];
 
     /**
@@ -31,7 +31,7 @@ class Media extends Validator
      */
     protected function onCreate()
     {
-        $this->rules['name'][] = 'unique:roles,name';
+//        $this->rules['name'][] = 'unique:roles,name';
     }
 
     /**
@@ -41,6 +41,6 @@ class Media extends Validator
      */
     protected function onUpdate()
     {
-        $this->rules['name'][] = 'unique:roles,name,{roleID}';
+//        $this->rules['name'][] = 'unique:roles,name,{roleID}';
     }
 }

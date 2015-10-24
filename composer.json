@@ -9,9 +9,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-
-    },
     "autoload": {
       "classmap": [
         "resources/database/migrations"

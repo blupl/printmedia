@@ -15,17 +15,19 @@ class CreateMediaReportersTable extends Migration {
 		Schema::create('media_reporters', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->tinyInteger('organization_id');
+            $table->string('form_id');
+            $table->string('media_category', 30);
             $table->string('name');
             $table->integer('personal_id');
             $table->string('gender', 20);
-            $table->date('date_of_birth');
+            $table->string('date_of_birth', 20);
             $table->string('mobile', 20);
             $table->string('email', 50);
             $table->string('role', 25);
             $table->string('work_station', 25);
-            $table->string('photo');
+            $table->string('photo')->default('/images/no-image.png');
             $table->string('card_collection_point', 25);
+            $table->tinyInteger('status')->default('0');
 			$table->timestamps();
 
 		});

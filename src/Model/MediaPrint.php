@@ -12,14 +12,14 @@ class MediaPrint extends Model {
      *
      * @var string
      */
-    protected $table = 'students';
+    protected $table = 'medias';
 
     /**
      * The class name to be used in polymorphic relations.
      *
      * @var string
      */
-    protected $morphClass = 'Student';
+    protected $morphClass = 'media';
 
     /**
      * The attributes that are mass assignable.

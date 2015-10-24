@@ -4,6 +4,11 @@ use Orchestra\Routing\Controller;
 
 class HomeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
     /**
      * Get landing page.
      *
@@ -11,8 +16,21 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return 'check Auth';
+    }
 
-        return 'Student';
+
+    public function form($role)
+    {
+        return view('blupl/printmedia::edit', compact('role'));
+    }
+
+    /**
+     * @return \Illuminate\View\View Bipon
+     */
+    public function select()
+    {
+
     }
 
 }

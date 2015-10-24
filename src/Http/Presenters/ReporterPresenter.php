@@ -41,7 +41,7 @@ class ReporterPresenter extends Presenter
      */
     public function table($model)
     {
-        return $this->table->of('student', function (TableGrid $table) use ($model) {
+        return $this->table->of('media', function (TableGrid $table) use ($model) {
             // attach Model and set pagination option to true.
             $table->with($model)->paginate(true);
 
@@ -109,8 +109,8 @@ class ReporterPresenter extends Presenter
      */
     public function form(Eloquent $model)
     {
-        return $this->form->of('school.student.profile', function (FormGrid $form) use ($model) {
-            $form->resource($this, 'orchestra::student/profile', $model);
+        return $this->form->of('media.reporter', function (FormGrid $form) use ($model) {
+            $form->resource($this, 'orchestra::media/reporter', $model);
             $form->hidden('id');
             $form->fieldset(function (Fieldset $fieldset) {
                 $fieldset->control('input:text', 'name')

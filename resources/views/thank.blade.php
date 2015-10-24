@@ -1,9 +1,9 @@
-@extends('orchestra/foundation::layouts.page')
+@extends('blupl/printmedia::select-media')
 
 @section('navbar')
     @include('blupl/printmedia::widgets.header')
 @endsection
 
 @section('content')
-    {!! $table !!}
+    <h1>Thank you for your informetion!</h1>
 @stop

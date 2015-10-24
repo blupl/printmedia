@@ -11,8 +11,8 @@ class MediaMenuHandler extends MenuHandler
      * @var array
      */
     protected $menu = [
-        'id'    => 'media',
-        'title' => 'Media',
+        'id'    => 'print-media',
+        'title' => 'Print Media',
         'link'  => 'orchestra::media',
         'icon'  => null,
     ];

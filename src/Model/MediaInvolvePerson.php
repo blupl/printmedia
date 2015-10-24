@@ -1,8 +1,8 @@
-<?php namespace Blupl\PrintMedia;
+<?php namespace Blupl\PrintMedia\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MediaInvolbePerson extends Model {
+class MediaInvolvePerson extends Model {
 
     /**
      * The database table used by the model.
@@ -24,10 +24,18 @@ class MediaInvolbePerson extends Model {
      * @var array
      */
     protected $fillable = [
+        'form_id',
+        'media_category',
+        'category',
         'name',
         'designation',
         'mobile_number',
         'email'
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo('Blupl\PrintMedia\Model\MediaOrganization', 'organization_id');
+    }
 
 }

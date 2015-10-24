@@ -5,10 +5,10 @@ return [
         'list'   => 'List of ACLs',
     ],
 
-    'student' => [
-        'list'   => 'List of Student',
-        'create' => 'Create New Student',
-        'update' => 'Update A Student',
+    'media' => [
+        'list'   => 'List of media',
+        'create' => 'Create New media',
+        'update' => 'Update A media',
     ],
 
     'themes' => [

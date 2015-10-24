@@ -10,6 +10,14 @@ use Orchestra\Support\Facades\Foundation;
 */
 
 Foundation::group('blupl/printmedia', 'media', ['namespace' => 'Blupl\PrintMedia\Http\Controllers'], function (Router $router) {
+    $router->get('printing/pdf/{id}', 'PrintingController@pdf');
+    $router->get('printing/{id}', 'PrintingController@show');
+    $router->get('printing', 'PrintingController@index');
+    $router->get('approval/reporter/{id}', 'ApprovalController@showReporter');
+    $router->put('approval/zone/{id}', ['as' => 'media.approval.zone', 'uses'=>'ApprovalController@update']);
+    $router->get('approval/{id}', 'ApprovalController@show');
+    $router->get('approval', 'ApprovalController@index');
+    $router->resource('reporter', 'ReporterController');
     $router->get('/', 'HomeController@index');
 });
 
