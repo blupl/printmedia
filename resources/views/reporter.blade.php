@@ -14,7 +14,7 @@
                     <i class="fa fa-print"></i>
                     <p class="box-title">Print</p>
                 </a>
-                <a class="col-md-offset-1" href="#">
+                <a class="col-md-offset-1" href="{{ handles('blupl/printmedia::printing/pdf/'.$reporter->id) }}">
                     <i class="fa fa-save"></i>
                     <p class="box-title">Save As PDF</p>
                 </a>
@@ -67,9 +67,10 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <label for="exampleInputFile">Photo</label>
-                            <img src="/images/social_skype_button_blue.png" style="width: 50px;"/>
+                            <br>
+                            <img src="{{ url($reporter->photo) }}" style="width: 50px;"/>
                             <h5>File Upload</h5>
-                            <a href="#">DOWNLOAD</a>
+                            <a href="{{ url($reporter->photo) }}">DOWNLOAD</a>
                         </div>
                     </div>
                 </div>

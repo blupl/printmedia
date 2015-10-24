@@ -14,6 +14,7 @@ class ApprovalController extends AdminController
         $this->processor = $processor;
 
         parent::__construct();
+        $this->middleware('auth');
     }
 
     protected function setupFilters()

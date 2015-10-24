@@ -13,6 +13,7 @@ class PrintingController extends AdminController
     {
         $this->processor = $processor;
         parent::__construct();
+        $this->middleware('auth');
     }
 
     protected function setupFilters()
@@ -48,7 +49,12 @@ class PrintingController extends AdminController
     {
         $reporter = MediaReporter::find($reporterId);
         $pdf = App::make('dompdf');
-        $pdf->loadView('blupl/printmedia::printing._print-single', ['name'=>$reporter->name, 'role'=>$reporter->role]);
+        $pdf->loadView('blupl/printmedia::printing._print-single', [
+            'name'=>$reporter->name,
+            'role'=>$reporter->role,
+            'organization'=>$reporter->organization->name,
+            'photo'=>$reporter->photo
+        ]);
 
         return $pdf->stream();
     }

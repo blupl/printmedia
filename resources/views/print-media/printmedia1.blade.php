@@ -19,22 +19,28 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="name">NAME</label>
+                                    @if ($errors->has('reporter['.$x.'][name]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][name]') }}</p> @endif
                                     {!! Form::text('reporter['.$x.'][name]', null, ['class'=>'form-control', 'id'=>'name']) !!}
+
                                 </div>
 
                                 <div class="form-group col-md-12">
                                     <label for="personal_id">National ID / Passport Number</label>
+                                    @if ($errors->has('reporter['.$x.'][personal_id]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][personal_id]') }}</p> @endif
                                     {!! Form::text('reporter['.$x.'][personal_id]', null, ['class'=>'form-control', 'id'=>'personal_id']) !!}
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label for="gender">Gender</label>
+                                        @if ($errors->has('reporter['.$x.'][gender]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][gender]') }}</p> @endif
                                         {!! Form::select('reporter['.$x.'][gender]', ['male'=>'Male', 'female'=>'Female', 'other'=>'Other'], null,['class'=>'form-control select2', 'id'=>'gender', 'style'=>'width: 100%;']) !!}
                                     </div>
                                 </div>
 
                                 <div class="xdisplay_inputx form-group has-feedback col-md-6">
                                     <label for="date_of_birth">Date of Birth</label>
+                                    @if ($errors->has('reporter['.$x.'][date_of_birth]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][date_of_birth]') }}</p> @endif
+
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -46,24 +52,27 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="mobile">Mobile Phone Number</label>
+                                    @if ($errors->has('reporter['.$x.'][mobile]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][mobile]') }}</p> @endif
                                     {!! Form::text('reporter['.$x.'][mobile]', null, ['class'=>'form-control', 'id'=>'mobile']) !!}
                                 </div>
 
                                 <div class="form-group col-md-12">
                                     <label for="email">E-Mail ID</label>
+                                    @if ($errors->has('reporter['.$x.'][email]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][email]') }}</p> @endif
                                     {!! Form::text('reporter['.$x.'][email]', null, ['class'=>'form-control', 'id'=>'email']) !!}
 
                                 </div>
 
                                 <div class="form-group col-md-5">
                                     <label for="role">Role</label>
+                                    @if ($errors->has('reporter['.$x.'][role]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][role]') }}</p> @endif
                                     {!! Form::select('reporter['.$x.'][role]', ['reporter'=>'Reporter'], 'reporter', ['class'=>'form-control select2', 'id'=>'role', 'readonly'=>'readonly', 'style'=>'width: 100%;']) !!}
-
                                 </div>
 
                                 <div class="form-group col-md-6 col-md-offset-1">
-                                        <label for="work_station col-md-12">Work Station</label>
-                                        {!! Form::select('reporter['.$x.'][work_station]', ['dhaka'=>'Dhaka', 'chittagong'=>'Chittagong', 'sylhet'=>'Sylhet', 'khulna'=>'Khulna'], null, ['class'=>'form-control select2', 'id'=>'work_station', 'style'=>'width: 100%;']) !!}
+                                    <label for="work_station col-md-12">Work Station</label>
+                                    @if ($errors->has('reporter['.$x.'][work_station]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][work_station]') }}</p> @endif
+                                    {!! Form::select('reporter['.$x.'][work_station]', ['dhaka'=>'Dhaka', 'chittagong'=>'Chittagong', 'sylhet'=>'Sylhet', 'khulna'=>'Khulna'], null, ['class'=>'form-control select2', 'id'=>'work_station', 'style'=>'width: 100%;']) !!}
                                 </div>
 
                                 <div class="form-group col-md-12">
@@ -72,7 +81,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        {!! Form::text('reporter['.$x.'][photo]', 'yoo', ['class'=>'form-control', 'id'=>'photo']) !!}
+                                        @if ($errors->has('file'.$x)) <p class="help-block">{{ $errors->first('file'.$x) }}</p> @endif
+                                        {!! Form::file('file'.$x, ['class'=>'form-control', 'id'=>'photo']) !!}
+                                        {{--<input type="file" name="{{ 'file'.$x }}" >--}}
                                         <p class="help-block"></p>
                                     </div>
 
@@ -83,6 +94,7 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="card_collection_point">Select card collection point</label>
+                                    @if ($errors->has('reporter['.$x.'][card_collection_point]')) <p class="help-block">{{ $errors->first('reporter['.$x.'][card_collection_point]') }}</p> @endif
                                     {!! Form::select('reporter['.$x.'][card_collection_point]', ['dhaka'=>'Dhaka', 'chittagong'=>'Chittagong', 'sylhet'=>'Sylhet', 'khulna'=>'Khulna'], null,['class'=>'form-control select2', 'id'=>'card_collection_point', 'style'=>'width: 100%;']) !!}
                                 </div>
 

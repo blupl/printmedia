@@ -1,13 +1,13 @@
 <?php namespace Blupl\PrintMedia\Http\Controllers;
 
 use Blupl\PrintMedia\Http\Requests\Reporter;
-use Blupl\PrintMedia\Model\MediaOrganization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Blupl\PrintMedia\Processor\Media as MediaProcessor;
+use Illuminate\Support\Facades\Mail;
 use Laracasts\Flash\Flash;
 use Orchestra\Foundation\Http\Controllers\AdminController;
+use Orchestra\Support\Facades\Mail as Mailer;
 
 class ReporterController extends AdminController
 {
@@ -15,8 +15,8 @@ class ReporterController extends AdminController
     public function __construct(MediaProcessor $processor)
     {
         $this->processor = $processor;
-
         parent::__construct();
+        $this->middleware('auth');
     }
 
     protected function setupFilters()
@@ -53,12 +53,8 @@ class ReporterController extends AdminController
      */
     public function create(Request $request)
     {
-        $user = Auth::user()->organization;
-        if($request->has('category') && $user == null) {
+        if($request->has('category') ) {
             return $this->processor->create($this);
-        }elseif($user != null) {
-            Flash::error('Your Organization Already Register');
-            return $this->redirect(handles('blupl/printmedia::reporter'));
         }else{
             Flash::error('Must Select a Category');
             return $this->redirect(handles('blupl/printmedia::reporter'));
@@ -84,8 +80,8 @@ class ReporterController extends AdminController
      */
      public function store(Reporter $request)
      {
-
-        return $this->processor->store($this, $request);
+//         dd('ypp');
+         return $this->processor->store($this, $request);
      }
 
     /**
@@ -202,12 +198,20 @@ class ReporterController extends AdminController
      *
      * @return mixed
      */
-     public function storeSucceed(MediaOrganization $media)
+     public function storeSucceed($organization)
      {
         $message = trans('blupl/printmedia::response.media.create', [
-            'name' => $media->getAttribute('name')
+            'name' => $organization->name
         ]);
+//        dd($organization->email);
+         Mailer::send('blupl/printmedia::email.update', ['yoo'=>'Yoo'], function ($m) use ($organization) {
+             $m->to($organization->email);
+         });
 
+         Mail::send('blupl/printmedia::email.update', ['yoo'=>'Yoo'], function ($m) use ($organization) {
+             $m->to($organization->email, $organization->name)->subject('Your Reminder!');
+         });
+        dd('mail check');
          return $this->redirectWithMessage(handles('blupl::media/reporter'), $message);
      }
 

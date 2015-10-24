@@ -46,6 +46,16 @@
 
 @endpush
 
-@push('orchestra.footer')
+@push('orchestra.header')
 @include('blupl/printmedia::form.style')
+
+<style>
+    .help-block {
+        color: red;
+        position: absolute;
+        right: 10px;
+        margin-top: 35px;
+        font-size: 10px;
+    }
+</style>
 @endpush

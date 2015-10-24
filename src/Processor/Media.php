@@ -6,9 +6,14 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Blupl\PrintMedia\Model\MediaOrganization as Eloquent;
+use Illuminate\Support\Facades\Input;
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Intervention\Image\Facades\Image;
 use Orchestra\Contracts\Foundation\Foundation;
 use Blupl\PrintMedia\Http\Presenters\MediaPresenter as MediaPresenter;
 use Blupl\PrintMedia\Validation\Media as MediaValidator;
+
 
 class Media extends Processor
 {
@@ -89,12 +94,20 @@ class Media extends Processor
         try {
             $organization = $media->create($request->organization);
             $organization->member()->insert($request->officer);
-            $organization->reporter()->insert($request->reporter);
+            foreach($request->reporter as $key=>$reporter) {
+                $file = Input::file('file' . $key);
+                $filename = 'reporter_'.uniqid() . '.jpg';
+                $destinationPath = 'images/reporters';
+                $itemImage = Image::make($file)->fit(350, 450);
+                $itemImage->save($destinationPath . '/' . $filename);
+                $reporter['photo'] = $destinationPath.'/'.$filename;
+                $organization->reporter()->create($reporter);
+
+            }
         } catch (Exception $e) {
             return $listener->storeFailed(['error' => $e->getMessage()]);
         }
-
-        return $listener->storeSucceed($media);
+        return $listener->storeSucceed($organization);
     }
 
     /**
@@ -173,6 +186,17 @@ class Media extends Processor
         $this->fireEvent($afterEvent, [$media]);
         $this->fireEvent('saved', [$media]);
 
+        return true;
+    }
+
+    function saveImage($path, $filename, $extension, $file)
+    {
+
+
+        $filename = uniqid().'.jpg';
+        $destinationPath = 'images';
+        $galleryImage = Image::make($file)->fit(350, 450);
+        $galleryImage->save($destinationPath.'/'.$filename);
         return true;
     }
 

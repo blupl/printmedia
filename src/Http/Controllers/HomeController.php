@@ -4,6 +4,11 @@ use Orchestra\Routing\Controller;
 
 class HomeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
     /**
      * Get landing page.
      *

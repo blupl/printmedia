@@ -6,7 +6,7 @@
         <h1 class="text-center">MEDIA ACCREDITATION</h1>
         <h2 class="text-center" >Print Media</h2>
 </div>
-{!! Form::open(['route'=>'media.reporter.store']) !!}
+{!! Form::open(['route'=>'media.reporter.store', 'files'=> true]) !!}
 <div id="wizard" class="form_wizard wizard_horizontal">
 
     <ul class="wizard_steps" style="padding: 25px 0;">
@@ -38,6 +38,13 @@
             </a>
         </li>
     </ul>
+    @if ($errors->has())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                {{ $error }}<br>
+            @endforeach
+        </div>
+    @endif
     <div id="step-1">
         @include('blupl/printmedia::print-media.printmedia1')
     </div>
